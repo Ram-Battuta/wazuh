@@ -4,6 +4,19 @@ Runs your own small language models (1.5B–3B, fine-tuned or stock) over Wazuh 
 structured verdict next to each one. Models run locally behind any OpenAI-compatible server; no data
 leaves the host.
 
+## Visual demo (no installs)
+
+```bash
+python demo_gui.py                     # virtual servers, attacker, Wazuh pipeline and model
+python demo_gui.py --model-url http://localhost:8080/v1 --model qwen2.5-1.5b   # same, real model
+```
+
+A tkinter command view that runs the real sidecar code (`TriageService`, prompt, verdict validation)
+against an in-process simulation: five hosts with agents, an attacker with five attack scenarios,
+the engine → events index → Sigma detectors → findings index path, and a simulated 1.5B model
+(or your real one). Click a verdict to see the AI's explanation, or the exact prompt, raw model
+output and indexed document under "Under the hood".
+
 ## Where it fits in Wazuh 5.x
 
 ```

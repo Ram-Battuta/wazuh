@@ -8,10 +8,10 @@ serve them locally, point ``--model-url`` at the server. Nothing leaves the host
 To add a backend that is not OpenAI-compatible, implement ``ModelBackend``.
 """
 
+from __future__ import annotations
+
 import time
 from typing import Any, Dict, List, Optional, Protocol
-
-import httpx
 
 from .verdict import SCHEMA
 
@@ -30,7 +30,9 @@ class ModelBackend(Protocol):
 class OpenAICompatBackend:
     def __init__(self, base_url: str, model: str, api_key: Optional[str] = None,
                  timeout: float = 60.0, max_tokens: int = 512, json_mode: str = "schema",
-                 retries: int = 2, transport: Optional[httpx.BaseTransport] = None):
+                 retries: int = 2, transport: Optional["httpx.BaseTransport"] = None):
+        import httpx  # lazy: the simulated demo runs without it
+
         if json_mode not in ("schema", "object", "none"):
             raise ValueError("json_mode must be schema, object or none")
         self.name = model
@@ -59,6 +61,8 @@ class OpenAICompatBackend:
         return body
 
     def complete(self, messages: List[Dict[str, str]]) -> str:
+        import httpx
+
         last_error: Exception = BackendUnavailable("no attempt made")
         for attempt in range(self.retries + 1):
             try:
