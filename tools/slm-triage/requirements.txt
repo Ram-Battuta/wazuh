@@ -1,0 +1,2 @@
+httpx==0.26.0
+opensearch-py==3.1.0

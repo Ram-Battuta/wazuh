@@ -1,0 +1,55 @@
+{
+  "index_patterns": ["wazuh-slm-triage-v5*"],
+  "priority": 100,
+  "template": {
+    "settings": {
+      "number_of_shards": 1,
+      "number_of_replicas": 0
+    },
+    "mappings": {
+      "dynamic": "strict",
+      "properties": {
+        "@timestamp": { "type": "date" },
+        "event": {
+          "properties": {
+            "doc_id": { "type": "keyword" },
+            "index": { "type": "keyword" }
+          }
+        },
+        "finding": {
+          "properties": {
+            "timestamp": { "type": "date" },
+            "rule": {
+              "properties": {
+                "title": { "type": "keyword" },
+                "level": { "type": "keyword" },
+                "sigma_id": { "type": "keyword" }
+              }
+            },
+            "agent": {
+              "properties": {
+                "id": { "type": "keyword" },
+                "name": { "type": "keyword" }
+              }
+            },
+            "integration": { "type": "keyword" },
+            "category": { "type": "keyword" }
+          }
+        },
+        "slm": {
+          "properties": {
+            "verdict": { "type": "keyword" },
+            "severity": { "type": "keyword" },
+            "confidence": { "type": "float" },
+            "summary": { "type": "text" },
+            "mitre_techniques": { "type": "keyword" },
+            "recommended_actions": { "type": "text" },
+            "parse_error": { "type": "boolean" },
+            "model": { "type": "keyword" },
+            "latency_ms": { "type": "float" }
+          }
+        }
+      }
+    }
+  }
+}
